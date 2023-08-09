@@ -7,3 +7,13 @@ This repository contains an analysis of factors influencing worker salaries usin
 - Stepwise backward regression
 - Stepwise regression
 
+#Metrics Used
+Level of education
+
+    1 - Nigeria Certificate in Education
+  
+    2 - Bachelor of Sciences/HND
+  
+    3 - Masters of Sciences
+  
+    4 - Phd
