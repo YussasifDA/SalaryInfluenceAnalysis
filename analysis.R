@@ -10,10 +10,6 @@ model <- lm(Salary~Education+Gender+Experience+Location+Age, data = data)
 summary(aov(model))
 summary(model)
 
-new <- lm(Salary~Education+Gender+Age)
-summary(aov(new))
-summary(new)
-
 library(olsrr)
 a <- data.frame(ols_step_all_possible(model))
 a
@@ -26,6 +22,3 @@ c <- ols_step_forward_p(model, details = TRUE, penter = 0.1)
 ols_step_backward_p(model,details = TRUE, progress = TRUE, prem = 0.15)
 
 ols_step_both_p(model,details = TRUE, pent = 0.15, prem = 0.15)
-
-
-
