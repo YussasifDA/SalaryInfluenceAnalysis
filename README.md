@@ -2,7 +2,7 @@
 
 *Disclaimer: The following report is intended solely for academic purposes to showcase a demonstration of statistical modeling. The data and results presented are entirely fictional and do not reflect any real-world scenarios or actual data.*
 
-## Introduction
+## 1.0    Introduction
 
 The subject of salaries has drawn significant attention from researchers, legal authorities, and practitioners. Understanding the factors influencing salaries is crucial for organizations as compensation issues are a key component of the employment contract. This report aims to identify the factors contributing to worker salaries, specifically focusing on education levels, experience, gender, location, and age. The analysis uses various statistical methods and is implemented in R using the "olsrr" package.
 Analysis & Results
@@ -25,7 +25,7 @@ This repository contains an analysis of factors influencing worker salaries usin
 - Stepwise backward regression
 - Stepwise regression
 
-## Analysis & Results
+## 2.0    Analysis & Results
 
 In this section, we conduct an analysis on six variables: salary, education, gender, experience, age, and location. We consider salary as the dependent variable and education, gender, experience, age, and location as the independent variables. The statistical tool used for analysis is R, and we utilize the "olsrr" package in R.
 
@@ -111,7 +111,7 @@ Location has a p-value of 0.0474, which is below the common significance thresho
 
 Age has a high p-value (0.3292), indicating that it may not be significantly associated with Salary.
 
-Linear Regression:
+### Linear Regression:
 The second part of the output provides the coefficient estimates, standard errors, t-values, and p-values for the linear regression model. This part helps you understand the individual effects of each predictor on the response variable.
 
 In the regression model:
@@ -128,6 +128,9 @@ Experience, Location, and Age also have their coefficient estimates, standard er
 Additionally, the multiple R-squared value (0.7717) indicates that the model as a whole explains about 77.17% of the variability in the response variable. The Adjusted R-squared (0.6448) takes into account the number of predictors and is often a better indicator of the model's goodness of fit when comparing models with different numbers of predictors.
 
 In conclusion, the ANOVA and regression results suggest that Education, Location, and possibly Gender have significant associations with Salary, while Experience and Age may not have significant associations.
+
+## 2.1    All Possible Subset
+All subset regression tests all possible subsets of the set of potential independent variables. If there are P potential independent variables (besides the constant), then there are 2p-1 distinct subsets of them to be tested. Since we have 5 independent variables 2<sup>5</sup>-1, which is 31. Also selecting the best model based on certain criteria e.g. R<sup>2</sup>, R<sup>2</sup>adj, Cp, MSE. In this report, we’ll be using R<sup>2 </sup>, R<sup>2</sup>adj, Cp, and sqrt(MSE).
 
 ### Using the 'olsrr' package
     library(olsrr)
@@ -146,20 +149,356 @@ This line of code uses the ols_step_all_possible() function from the olsrr packa
 
 This line of code saves the data frame to a CSV file named "All possible.csv" in the current working directory.
 
-Here's the result in csv format: ![All Possible Subset](/All possible.csv)
+Here's the result in csv format: ![All Possible Subset](/All_possible.csv)
 
 
+## 2.2    Stepwise Forward Regression
+Build a regression model from a set of predictor variables by entering predictors based on p-value into the null model, in a forward stepwise manner until there is no variable left to enter anymore. In this report we’re setting our αenter to be 0.15 for a variable to enter the model, i.e. the p-value of a particular variable has to be less than αenter=0.15.
+Forward Selection: 
+Null Model: Salary=β<sub>0</sub>+£<sub>i</sub>
+Predictor Variables: Education, Gender, Experience, Location, Age
 
-### Perform stepwise forward regression
     c <- ols_step_forward_p(model, details = TRUE, penter = 0.1)
 
 This line of code uses the ols_step_forward_p() function from the olsrr package to perform stepwise forward regression on the model with a significance level (p-value) of 0.1, and the results are stored in a data frame called c.
 
+Here's the result from R-console and discussion:
 
-### Perform stepwise backward regression
+    Forward Selection Method    
+    ---------------------------
+
+    Candidate Terms: 
+
+    1. Education 
+    2. Gender 
+    3. Experience 
+    4. Location 
+    5. Age 
+
+We are selecting variables based on p value...
+
+In forward selection, variables are added to the model one by one based on their p-values, starting with the variable that has the lowest p-value. This process helps in selecting the most significant predictors for the model. Let's break down each step and the information it presents:
+
+Forward Selection: Step 1 
+
+    + Education 
+
+                         Model Summary                           
+    ----------------------------------------------------------------
+    R                       0.679       RMSE                 80.905 
+    R-Squared               0.461       Coef. Var            76.277 
+    Adj. R-Squared          0.420       MSE                6545.611 
+    Pred R-Squared          0.222       MAE                  56.076 
+    ----------------------------------------------------------------
+     RMSE: Root Mean Square Error 
+     MSE: Mean Square Error 
+     MAE: Mean Absolute Error 
+
+                                ANOVA                                  
+    ----------------------------------------------------------------------
+                      Sum of                                              
+                     Squares        DF    Mean Square      F         Sig. 
+    ----------------------------------------------------------------------
+    Regression     72857.985         1      72857.985    11.131    0.0054 
+    Residual       85092.949        13       6545.611                     
+    Total         157950.933        14                                    
+    ----------------------------------------------------------------------
+
+                                    Parameter Estimates                                      
+    --------------------------------------------------------------------------------------------
+          model       Beta    Std. Error    Std. Beta      t        Sig        lower      upper 
+    --------------------------------------------------------------------------------------------
+    (Intercept)    -42.614        49.218                 -0.866    0.402    -148.943     63.714 
+      Education     65.594        19.661        0.679     3.336    0.005      23.120    108.069 
+    --------------------------------------------------------------------------------------------
+
+### Step 1: Education
+
+In this step, the initial model includes only the "Education" predictor. The model summary provides various statistics about the model's performance:
+
+R-squared: Indicates the proportion of variance in the response variable explained by the predictor.(0.461)
+
+Adjusted R-squared: Adjusts R-squared for the number of predictors.(0.420)
+
+RMSE: Root Mean Square Error, a measure of prediction accuracy.(80.905)
+
+ANOVA: Analysis of Variance table showing the breakdown of the sum of squares for regression and residuals.
+
+Coefficient estimates: The intercept and coefficient for the "Education" predictor, along with their statistical significance.
+
+
+Forward Selection: Step 2 
+
+    + Location 
+
+                         Model Summary                           
+    ----------------------------------------------------------------
+    R                       0.775       RMSE                 72.475 
+    R-Squared               0.601       Coef. Var            68.330 
+    Adj. R-Squared          0.534       MSE                5252.632 
+    Pred R-Squared          0.349       MAE                  45.085 
+    ----------------------------------------------------------------
+     RMSE: Root Mean Square Error 
+     MSE: Mean Square Error 
+     MAE: Mean Absolute Error 
+
+                                ANOVA                                 
+    ---------------------------------------------------------------------
+                      Sum of                                             
+                     Squares        DF    Mean Square      F        Sig. 
+    ---------------------------------------------------------------------
+    Regression     94919.353         2      47459.676    9.035    0.0040 
+    Residual       63031.580        12       5252.632                    
+    Total         157950.933        14                                   
+    ---------------------------------------------------------------------
+
+                                     Parameter Estimates                                      
+    ---------------------------------------------------------------------------------------------
+        model        Beta        Std. Error    Std. Beta      t        Sig          lower      upper 
+    ---------------------------------------------------------------------------------------------
+    (Intercept)     -165.637      74.480       -2.224        0.046    -327.915     -3.358 
+    Education        59.085       17.896        0.612        3.302    0.006      20.092     98.078 
+    Location         82.666       40.337        0.380        2.049    0.063      -5.220    170.552 
+    ---------------------------------------------------------------------------------------------
+
+
+
+    No more variables to be added.
+
+    Variables Entered: 
+
+    + Education 
+    + Location 
+
+
+    Final Model Output 
+    ------------------
+
+                         Model Summary                           
+    ----------------------------------------------------------------
+    R                       0.775       RMSE                 72.475 
+    R-Squared               0.601       Coef. Var            68.330 
+    Adj. R-Squared          0.534       MSE                5252.632 
+    Pred R-Squared          0.349       MAE                  45.085 
+    ----------------------------------------------------------------
+     RMSE: Root Mean Square Error 
+     MSE: Mean Square Error 
+     MAE: Mean Absolute Error 
+
+                                ANOVA                                 
+    ---------------------------------------------------------------------
+                      Sum of                                             
+                     Squares        DF    Mean Square      F        Sig. 
+    ---------------------------------------------------------------------
+    Regression     94919.353         2      47459.676    9.035    0.0040 
+    Residual       63031.580        12       5252.632                    
+    Total         157950.933        14                                   
+    ---------------------------------------------------------------------
+
+                                     Parameter Estimates                                      
+    ---------------------------------------------------------------------------------------------
+          model        Beta    Std. Error    Std. Beta      t        Sig        lower      upper 
+    ---------------------------------------------------------------------------------------------
+    (Intercept)    -165.637        74.480                 -2.224    0.046    -327.915     -3.358 
+      Education      59.085        17.896        0.612     3.302    0.006      20.092     98.078 
+       Location      82.666        40.337        0.380     2.049    0.063      -5.220    170.552 
+    ---------------------------------------------------------------------------------------------
+
+### Step 2: Location
+
+In this step, the "Location" predictor is added to the model. The model summary and ANOVA table are presented again, along with parameter estimates for both "Education" and "Location" predictors.
+
+Final Model Output
+
+After both "Education" and "Location" predictors have been added, the final model summary, ANOVA table, and parameter estimates are shown once more. Since there are no more predictors to add, the process concludes.
+
+This illustrates how the model evolves as predictors are added and showcases key statistics for assessing model fit and predictor significance. It also demonstrates how the forward selection method helps build a predictive model by iteratively selecting and evaluating predictors based on their p-values. The goal is to create a model that balances prediction accuracy and simplicity while ensuring that the selected predictors are statistically significant.
+
+
+## 2.3    Stepwise Backward Regression
+The purpose of backward elimination is to simplify the model by removing non-significant predictors, which helps create a more parsimonious and interpretable model while maintaining its predictive power. The process is guided by p-values and statistical measures to ensure that the retained predictors are meaningful and relevant to the response variable.
+Here we're building a regression model from a set of candidate predictor variables by entering predictors based on p-value from the full model, in a backward stepwise manner until there is no variable left to remove any more. In this report we’re setting our αenter to be 0.15 for a variable to enter the model, i.e. a particular variable is removed if its p-value is greater than αenter=0.15.  
+Backward Elimination: 
+Full Model: Salary=β<sub>0</sub>+β<sub>1</sub>Education+β<sub>2</sub>Gender+β<sub>3</sub>Experience+β<sub>4</sub>Age+β<sub>5</sub>Location+£<sub>i</sub>
+Predictor Variables: Education, Gender, Experience, Location, Age
+
     ols_step_backward_p(model, details = TRUE, progress = TRUE, prem = 0.15)
 
 This line of code uses the ols_step_backward_p() function from the olsrr package to perform stepwise backward regression on the model with a significance level (p-value) of 0.15. The details = TRUE argument displays detailed information about the stepwise process, and progress = TRUE shows the progress of the regression.
+
+### Backward Elimination Method 
+---------------------------
+
+Candidate Terms: 
+
+1 . Education 
+2 . Gender 
+3 . Experience 
+4 . Location 
+5 . Age 
+
+We are eliminating variables based on p value...
+
+x Experience 
+
+### Backward Elimination: Step 1 
+Experience Removed
+
+In this step, the initial model includes all candidate predictor variables. The least significant variable, "Experience," is removed from the model based on its p-value. The model summary and ANOVA table are presented:
+
+R-squared: Proportion of variance in the response variable explained by the predictors. (0.761)
+
+Adjusted R-squared: Adjusted R-squared for the number of predictors. (0.665)
+
+RMSE: Root Mean Square Error, a measure of prediction accuracy.
+
+ANOVA: Analysis of Variance table showing the breakdown of the sum of squares for regression and residuals.
+
+Coefficient estimates for remaining predictors.
+
+Variable Experience Removed 
+
+                         Model Summary                           
+    ----------------------------------------------------------------
+    R                       0.872       RMSE                 61.473 
+    R-Squared               0.761       Coef. Var            57.957 
+    Adj. R-Squared          0.665       MSE                3778.983 
+    Pred R-Squared          0.324       MAE                  39.962 
+    ----------------------------------------------------------------
+     RMSE: Root Mean Square Error 
+     MSE: Mean Square Error 
+     MAE: Mean Absolute Error 
+
+                                ANOVA                                 
+    ---------------------------------------------------------------------
+                      Sum of                                             
+                     Squares        DF    Mean Square      F        Sig. 
+    ---------------------------------------------------------------------
+    Regression    120161.100         4      30040.275    7.949    0.0038 
+    Residual       37789.834        10       3778.983                    
+    Total         157950.933        14                                   
+    ---------------------------------------------------------------------
+
+                                     Parameter Estimates                                       
+    ----------------------------------------------------------------------------------------------
+          model        Beta    Std. Error    Std. Beta      t        Sig        lower       upper 
+    ----------------------------------------------------------------------------------------------
+    (Intercept)    -387.188       107.390                 -3.605    0.005    -626.468    -147.907 
+      Education      45.138        16.123        0.467     2.800    0.019       9.214      81.062 
+         Gender      84.399        36.522        0.403     2.311    0.043       3.023     165.774 
+       Location      52.162        37.712        0.240     1.383    0.197     -31.865     136.189 
+            Age       5.820         2.852        0.393     2.041    0.069      -0.535      12.174 
+    ----------------------------------------------------------------------------------------------
+
+
+    x Location 
+
+### Backward Elimination: Step 2 
+Location Removed
+
+In this step, the "Location" variable is removed from the model due to its p-value. The model summary and ANOVA table are presented again.
+
+Elimination Summary
+
+After the elimination steps are complete, a summary is provided. This summary includes information about the elimination process:
+
+Variables eliminated in each step.
+
+R-squared and adjusted R-squared values at each step.
+        
+The C(p) value, a statistic used to guide model selection.
+    
+AIC (Akaike Information Criterion), a measure of model quality that penalizes complexity.
+    
+RMSE for each step.
+
+     Variable Location Removed 
+
+                         Model Summary                           
+    ----------------------------------------------------------------
+    R                       0.846       RMSE                 63.974 
+    R-Squared               0.715       Coef. Var            60.315 
+    Adj. R-Squared          0.637       MSE                4092.695 
+    Pred R-Squared          0.391       MAE                  42.348 
+    ----------------------------------------------------------------
+     RMSE: Root Mean Square Error 
+     MSE: Mean Square Error 
+     MAE: Mean Absolute Error 
+
+                                ANOVA                                 
+    ---------------------------------------------------------------------
+                      Sum of                                             
+                     Squares        DF    Mean Square      F        Sig. 
+    ---------------------------------------------------------------------
+    Regression    112931.285         3      37643.762    9.198    0.0025 
+    Residual       45019.648        11       4092.695                    
+    Total         157950.933        14                                   
+    ---------------------------------------------------------------------
+
+                                     Parameter Estimates                                       
+    ----------------------------------------------------------------------------------------------
+          model        Beta    Std. Error    Std. Beta      t        Sig        lower       upper 
+    ----------------------------------------------------------------------------------------------
+    (Intercept)    -365.805       110.595                 -3.308    0.007    -609.223    -122.388 
+      Education      45.937        16.768        0.476     2.740    0.019       9.031      82.843 
+         Gender      92.179        37.554        0.440     2.455    0.032       9.524     174.835 
+            Age       7.475         2.694        0.505     2.775    0.018       1.545      13.404 
+    ----------------------------------------------------------------------------------------------
+
+
+
+    No more variables satisfy the condition of p value = 0.15
+
+
+    Variables Removed: 
+
+    x Experience 
+    x Location 
+
+
+    Final Model Output 
+    ------------------
+
+                         Model Summary                           
+    ----------------------------------------------------------------
+    R                       0.846       RMSE                 63.974 
+    R-Squared               0.715       Coef. Var            60.315 
+    Adj. R-Squared          0.637       MSE                4092.695 
+    Pred R-Squared          0.391       MAE                  42.348 
+    ----------------------------------------------------------------
+     RMSE: Root Mean Square Error 
+     MSE: Mean Square Error 
+     MAE: Mean Absolute Error 
+
+                                ANOVA                                 
+    ---------------------------------------------------------------------
+                      Sum of                                             
+                     Squares        DF    Mean Square      F        Sig. 
+    ---------------------------------------------------------------------
+    Regression    112931.285         3      37643.762    9.198    0.0025 
+    Residual       45019.648        11       4092.695                    
+    Total         157950.933        14                                   
+    ---------------------------------------------------------------------
+
+                                     Parameter Estimates                                       
+    ----------------------------------------------------------------------------------------------
+          model        Beta    Std. Error    Std. Beta      t        Sig        lower       upper 
+    ----------------------------------------------------------------------------------------------
+    (Intercept)    -365.805       110.595                 -3.308    0.007    -609.223    -122.388 
+      Education      45.937        16.768        0.476     2.740    0.019       9.031      82.843 
+         Gender      92.179        37.554        0.440     2.455    0.032       9.524     174.835 
+            Age       7.475         2.694        0.505     2.775    0.018       1.545      13.404 
+    ----------------------------------------------------------------------------------------------
+
+
+                            Elimination Summary                             
+    ---------------------------------------------------------------------------
+            Variable                    Adj.                                       
+    Step     Removed      R-Square    R-Square     C(p)       AIC        RMSE      
+    ---------------------------------------------------------------------------
+       1    Experience      0.7607       0.665    4.4310    172.0443    61.4734    
+       2    Location         0.715      0.6372    4.2353    172.6702    63.9742    
+    ---------------------------------------------------------------------------
 
 
 
