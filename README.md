@@ -30,6 +30,7 @@ This repository contains an analysis of factors influencing worker salaries usin
 - Stepwise backward regression
 - Stepwise regression
 
+<a name="analysis-&-results"></a>
 ## Analysis & Results
 
 In this section, we conduct an analysis on six variables: salary, education, gender, experience, age, and location. We consider salary as the dependent variable and education, gender, experience, age, and location as the independent variables. The statistical tool used for analysis is R, and we utilize the "olsrr" package in R.
