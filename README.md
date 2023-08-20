@@ -1,12 +1,12 @@
 # **SALARY INFLUENCE ANALYSIS**
 
 ## Table of contents
-- [1.0    Introduction](#introduction)
-- [2.0    Analysis & Results](#analysis-&-results)
+- [Introduction](#introduction)
+- [Analysis & Results](#analysis-&-results)
 
 *Disclaimer: The following report is intended solely for academic purposes to showcase a demonstration of statistical modeling. The data and results presented are entirely fictional and do not reflect any real-world scenarios or actual data.*
 
-## 1.0    Introduction
+## Introduction
 
 The subject of salaries has drawn significant attention from researchers, legal authorities, and practitioners. Understanding the factors influencing salaries is crucial for organizations as compensation issues are a key component of the employment contract. This report aims to identify the factors contributing to worker salaries, specifically focusing on education levels, experience, gender, location, and age. The analysis uses various statistical methods and is implemented in R using the "olsrr" package.
 Analysis & Results
@@ -29,7 +29,7 @@ This repository contains an analysis of factors influencing worker salaries usin
 - Stepwise backward regression
 - Stepwise regression
 
-## 2.0    Analysis & Results
+## Analysis & Results
 
 In this section, we conduct an analysis on six variables: salary, education, gender, experience, age, and location. We consider salary as the dependent variable and education, gender, experience, age, and location as the independent variables. The statistical tool used for analysis is R, and we utilize the "olsrr" package in R.
 
