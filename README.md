@@ -2,7 +2,7 @@
 
 ## Table of contents
 - [1.0    Introduction](#introduction)
-
+- [2.0    Analysis & Results](#analysis-&-results)
 
 *Disclaimer: The following report is intended solely for academic purposes to showcase a demonstration of statistical modeling. The data and results presented are entirely fictional and do not reflect any real-world scenarios or actual data.*
 
